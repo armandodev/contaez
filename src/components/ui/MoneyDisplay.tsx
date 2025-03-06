@@ -1,6 +1,6 @@
 "use client";
 
-import { formatMoney } from "./../../utils/formatters";
+import { formatMoney } from "../../lib/formatters";
 
 interface Props {
   className?: string;
