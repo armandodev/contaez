@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../hooks";
 import { supabase } from "../../config/supabase";
 
 // Interfaz para cuentas
@@ -22,8 +22,8 @@ export default function CreateTransaction() {
   } | null>(null);
   const { user } = useAuth();
 
-  // Cargar cuentas al montar el componente
-  useState(() => {
+  // Corregido: useEffect en lugar de useState
+  useEffect(() => {
     const fetchAccounts = async () => {
       try {
         const { data, error } = await supabase
@@ -40,7 +40,7 @@ export default function CreateTransaction() {
     };
 
     fetchAccounts();
-  }, []);
+  }, []); // Array de dependencias vacío para ejecutar solo una vez
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +78,7 @@ export default function CreateTransaction() {
         text: "Transacción creada exitosamente",
         type: "success",
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setMessage({
         text: error.message || "Error al crear la transacción",
