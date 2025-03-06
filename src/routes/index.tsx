@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import AuthPage from "../pages/AuthPage";
 import Dashboard from "../pages/Dashboard";
-import { AuthProvider } from "../context/AuthContext";
+import { AuthProvider } from "../context/AuthProvider";
 
 export default function AppRoutes() {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -30,6 +30,7 @@ export default function RegisterForm() {
       setMessage(
         "Registro exitoso. Revisa tu correo para confirmar tu cuenta."
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError(error.message || "Error al registrarse");
     } finally {

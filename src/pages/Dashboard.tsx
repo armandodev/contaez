@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/";
 import { TransactionsList } from "../components/ui";
 import CreateTransaction from "../components/forms/CreateTransaction";
 

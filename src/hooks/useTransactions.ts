@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../config/supabase";
-import { useAuth } from "../context/AuthContext"; // Cambiado a importar desde context
+import { useAuth } from "../hooks/"; // Cambiado a importar desde context
 
 export interface Transaction {
   id: string;
