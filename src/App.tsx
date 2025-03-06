@@ -1,11 +1,5 @@
-import { TransactionsList } from "./components/ui";
-import CreateTransaction from "./components/forms/CreateTransaction";
+import AppRoutes from "./routes";
 
 export default function App() {
-  return (
-    <>
-      <TransactionsList />
-      <CreateTransaction />
-    </>
-  );
+  return <AppRoutes />;
 }
