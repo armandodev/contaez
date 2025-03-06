@@ -9,9 +9,10 @@ interface Account {
   name: string;
 }
 
-export default function CreateTransaction() {
+export default function CreateTransactionForm() {
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const actualDate = new Date().toISOString().split("T")[0];
+  const [date, setDate] = useState(actualDate);
   const [amount, setAmount] = useState("");
   const [accountId, setAccountId] = useState("");
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -92,26 +93,23 @@ export default function CreateTransaction() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
+      className="grid gap-4 w-[90%] p-8 bg-white rounded-lg shadow-md"
     >
-      <h3 className="text-xl font-bold mb-4">Crear nueva transacción</h3>
+      <h2 className="text-center text-2xl font-bold">Nueva transacción</h2>
 
-      {message && (
-        <div
-          className={`p-3 mb-4 rounded ${
-            message.type === "success"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
+      {message && message.type === "success" && (
+        <p className="p-2 text-green-500 bg-green-200 border-2 border-green-500 rounded-md">
           {message.text}
-        </div>
+        </p>
+      )}
+      {message && message.type !== "success" && (
+        <p className="p-2 text-red-500 bg-red-200 border-2 border-red-500 rounded-md">
+          {message.text}
+        </p>
       )}
 
-      <div className="mb-4">
-        <label htmlFor="description" className="block mb-1 font-medium">
-          Descripción
-        </label>
+      <label className="grid gap-4 items-center">
+        Descripción
         <input
           type="text"
           id="description"
@@ -120,12 +118,9 @@ export default function CreateTransaction() {
           className="w-full p-2 border rounded"
           required
         />
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="date" className="block mb-1 font-medium">
-          Fecha
-        </label>
+      </label>
+      <label className="grid gap-4 items-center">
+        Fecha
         <input
           type="date"
           id="date"
@@ -134,49 +129,54 @@ export default function CreateTransaction() {
           className="w-full p-2 border rounded"
           required
         />
-      </div>
+      </label>
 
-      <div className="mb-4">
-        <label htmlFor="amount" className="block mb-1 font-medium">
-          Monto (positivo para ingreso, negativo para gasto)
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <label className="grid gap-4 items-center">
+          Monto
+          <input
+            type="number"
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            step="0.01"
+            placeholder="+ Ingreso, - Gasto"
+            className="w-full p-2 border rounded"
+            required
+          />
         </label>
-        <input
-          type="number"
-          id="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          step="0.01"
-          className="w-full p-2 border rounded"
-          required
-        />
-      </div>
 
-      <div className="mb-4">
-        <label htmlFor="account" className="block mb-1 font-medium">
+        <label className="grid gap-4 items-center">
           Cuenta
+          <select
+            className="w-full p-2 border rounded"
+            id="account"
+            value={accountId}
+            onChange={(e) => setAccountId(e.target.value)}
+            required
+          >
+            <option value="">Seleccionar cuenta</option>
+            {accounts.map((account) => (
+              <option
+                className="w-full p-2 border rounded"
+                key={account.id}
+                value={account.id}
+              >
+                {account.code} - {account.name}
+              </option>
+            ))}
+          </select>
         </label>
-        <select
-          id="account"
-          value={accountId}
-          onChange={(e) => setAccountId(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        >
-          <option value="">Seleccionar cuenta</option>
-          {accounts.map((account) => (
-            <option key={account.id} value={account.id}>
-              {account.code} - {account.name}
-            </option>
-          ))}
-        </select>
       </div>
 
       <button
         type="submit"
-        className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         disabled={loading}
+        className={`w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200 ease-in-out ${
+          loading ? "cursor-default opacity-50" : "cursor-pointer"
+        }`}
       >
-        {loading ? "Guardando..." : "Guardar transacción"}
+        Crear transacción
       </button>
     </form>
   );

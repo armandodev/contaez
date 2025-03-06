@@ -1,1 +1,1 @@
-export { default as CreateTransaction } from "./CreateTransaction";
+export { default as CreateTransactionForm } from "./CreateTransactionForm";

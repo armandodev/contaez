@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useAuth } from "../../hooks/";
 
@@ -18,53 +17,57 @@ export default function LoginForm() {
     try {
       const { error } = await signIn(email, password);
       if (error) throw error;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setError(error.message || "Error al iniciar sesión");
+      console.error(error);
+      setError("Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-bold">Iniciar sesión</h2>
+    <form onSubmit={handleSubmit} className="grid gap-4">
+      <h2 className="text-center text-2xl font-bold">Iniciar sesión</h2>
 
-      {error && <div className="p-2 text-red-500">{error}</div>}
+      {error && (
+        <p className="p-2 text-red-500 bg-red-200 border-2 border-red-500 rounded-md">
+          {error}
+        </p>
+      )}
 
-      <div>
-        <label htmlFor="email" className="block mb-1">
-          Correo electrónico
-        </label>
+      <label className="grid gap-2 items-center">
+        Correo electrónico
         <input
-          id="email"
+          className="w-full p-2 border rounded"
           type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full p-2 border rounded"
         />
-      </div>
+      </label>
 
-      <div>
-        <label htmlFor="password" className="block mb-1">
-          Contraseña
-        </label>
+      <label className="grid gap-2 items-center">
+        Contraseña
         <input
-          id="password"
+          className="w-full p-2 border rounded"
           type="password"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full p-2 border rounded"
         />
-      </div>
+      </label>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full p-2 bg-blue-500 text-white rounded"
+        className={`w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200 ease-in-out ${
+          loading ? "cursor-default opacity-50" : "cursor-pointer"
+        }`}
       >
-        {loading ? "Cargando..." : "Iniciar sesión"}
+        Iniciar sesión
       </button>
     </form>
   );

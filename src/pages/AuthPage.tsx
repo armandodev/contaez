@@ -3,34 +3,41 @@ import LoginForm from "../components/auth/LoginForm";
 import RegisterForm from "../components/auth/RegisterForm";
 
 export default function AuthPage() {
-  const [authMode, setAuthMode] = useState<"login" | "register">("login");
+  const [authMode, setAuthMode] = useState<boolean>(true);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="mb-4">
-          <div className="flex border-b">
-            <button
-              className={`py-2 px-4 ${
-                authMode === "login" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setAuthMode("login")}
-            >
-              Iniciar sesión
-            </button>
-            <button
-              className={`py-2 px-4 ${
-                authMode === "register" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setAuthMode("register")}
-            >
-              Registrarse
-            </button>
-          </div>
-        </div>
-
-        {authMode === "login" ? <LoginForm /> : <RegisterForm />}
-      </div>
-    </div>
+    <main className="w-full min-h-screen grid place-items-center">
+      <section
+        className={`w-full grid gap-4 p-8 bg-white rounded-lg shadow-md ${
+          authMode ? "max-w-md" : "max-w-screen-sm"
+        }`}
+      >
+        {authMode ? <LoginForm /> : <RegisterForm />}
+        <footer>
+          {authMode && (
+            <p className="text-center text-sm text-gray-500">
+              ¿No tienes una cuenta?{" "}
+              <button
+                className="text-blue-500 hover:underline"
+                onClick={() => setAuthMode(!authMode)}
+              >
+                Registrarse
+              </button>
+            </p>
+          )}
+          {!authMode && (
+            <p className="text-center text-sm text-gray-500">
+              Ya tienes una cuenta?{" "}
+              <button
+                className="text-blue-500 hover:underline"
+                onClick={() => setAuthMode(!authMode)}
+              >
+                Iniciar sesión
+              </button>
+            </p>
+          )}
+        </footer>
+      </section>
+    </main>
   );
 }

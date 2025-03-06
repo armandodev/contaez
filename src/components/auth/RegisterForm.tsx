@@ -32,7 +32,8 @@ export default function RegisterForm() {
       );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setError(error.message || "Error al registrarse");
+      console.error(error);
+      setError("Error al registrarse");
     } finally {
       setLoading(false);
     }
@@ -40,59 +41,65 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-bold">Registrarse</h2>
+      <h2 className="text-center text-2xl font-bold">Registro</h2>
 
-      {error && <div className="p-2 text-red-500">{error}</div>}
-      {message && <div className="p-2 text-green-500">{message}</div>}
+      {error && (
+        <p className="p-2 text-red-500 bg-red-200 border-2 border-red-500 rounded-md">
+          {error}
+        </p>
+      )}
+      {message && (
+        <p className="p-2 text-green-500 bg-green-200 border-2 border-green-500 rounded-md">
+          {message}
+        </p>
+      )}
 
-      <div>
-        <label htmlFor="register-email" className="block mb-1">
-          Correo electrónico
-        </label>
+      <label className="grid gap-2 items-center">
+        Correo electrónico
         <input
-          id="register-email"
+          className="w-full p-2 border rounded"
           type="email"
+          id="register-email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full p-2 border rounded"
         />
-      </div>
+      </label>
 
-      <div>
-        <label htmlFor="register-password" className="block mb-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <label className="grid gap-2 items-center">
           Contraseña
+          <input
+            className="w-full p-2 border rounded"
+            type="password"
+            id="register-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </label>
-        <input
-          id="register-password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full p-2 border rounded"
-        />
-      </div>
 
-      <div>
-        <label htmlFor="confirm-password" className="block mb-1">
+        <label className="grid gap-2 items-center">
           Confirmar contraseña
+          <input
+            className="w-full p-2 border rounded"
+            type="password"
+            id="register-confirm-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
         </label>
-        <input
-          id="confirm-password"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          className="w-full p-2 border rounded"
-        />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full p-2 bg-blue-500 text-white rounded"
+        className={`w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200 ease-in-out ${
+          loading ? "cursor-default opacity-50" : "cursor-pointer"
+        }`}
       >
-        {loading ? "Cargando..." : "Registrarse"}
+        Registrarse
       </button>
     </form>
   );
